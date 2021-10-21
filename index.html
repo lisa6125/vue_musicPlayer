@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mp3_Player</title>
+    <link rel="stylesheet" href="./scss/all.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- 注意背景原先的background-image要改成以下 -->
+      <div class="main">
+        <div class="container">
+          <div class="showVudio">
+            <div class="square" @click="changeFollowPage"></div>
+            <canvas id="canvas"></canvas>
+          </div>
+          <div class="main_content">
+            <div class="song_name" @click="changePlayListPage">
+              {{music[this.index].name}}
+            </div>
+            <div class="song_artist">{{music[this.index].artist}}</div>
+            <audio
+              id="audio"
+              @ended="MusicPlayStatus=false"
+              @timeupdate="catchTime"
+              :src="music[index].src"
+            ></audio>
+            <div class="song_bar">
+              <div class="song_bar_timer"></div>
+              <div class="song_bar_btn"></div>
+            </div>
+            <div class="song_timer">
+              <span>{{currentMusic}}</span>
+              <span>{{timeLeftMusic}}</span>
+            </div>
+            <div class="song_control">
+              <span class="shuffle">
+                <img src="./icons/btn_ShufflePlayback.svg" alt="" />
+              </span>
+              <span class="pre" @click="changeSong(-1)">
+                <img src="./icons/btn_Rewind.svg" alt="" />
+              </span>
+              <span
+                class="play"
+                @click="changePlaying"
+                v-show="!MusicPlayStatus"
+              >
+                <img src="./icons/btn_Play.svg" alt="" />
+              </span>
+              <span
+                class="play"
+                @click="changePlaying"
+                v-show="MusicPlayStatus"
+              >
+                <img src="./icons/btn_pause.svg" alt="" />
+              </span>
+              <span class="next" @click="changeSong(1)">
+                <img src="./icons/btn_Fast.svg" alt="" />
+              </span>
+              <span class="loop">
+                <img src="./icons/btn_RepeatAll.svg" alt="" />
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- 以下修飾子.self 只會觸發元素自己的事件行為，而子層則無繼承父層事件行為 -->
+        <div
+          class="follow_mask"
+          :class="{fade:!followPage}"
+          @click.self="changeFollowPage"
+        >
+          <div
+            class="follow_card"
+            style="background-image: url(./picture/8C9Evy.png)"
+          >
+            <div class="follow_card_content">
+              <div class="song_name">{{music[this.index].name}}</div>
+              <div class="song_artist">{{music[this.index].artist}}</div>
+              <div class="song_btn">
+                <div class="btn follow">follow</div>
+                <div class="btn remove">remove ad</div>
+              </div>
+              <div class="thanks">No,thanks</div>
+            </div>
+          </div>
+        </div>
+        <div class="playlist" :class="{slide:playListPage}">
+          <div class="playlist_card">
+            <div class="list_control">
+              <div class="list_back" @click="changePlayListPage">
+                <img src="./icons/btn_Back.svg" alt="" />
+              </div>
+              <div class="list_title">PLAYLIST</div>
+              <div class="list_more">
+                <img src="./icons/btn_more.svg" alt="" />
+              </div>
+            </div>
+            <div class="list_menu">
+              <div
+                class="song"
+                v-for="item,idx in music"
+                :key="idx"
+                :class="{active:idx===index}"
+                @click="changeIndex(idx)"
+              >
+                <div class="song_name">{{item.name}}</div>
+                <div class="song_artist">{{item.artist}}</div>
+                <div class="song_play">
+                  <div class="img" v-show="index !== idx">
+                    <img src="./icons/btn_small_play.svg" alt="" />
+                  </div>
+                  <div
+                    class="img"
+                    v-show="MusicPlayStatus && index == idx"
+                    @click="changePlaying"
+                  >
+                    <img src="./icons/btn_small_pause.svg" alt="" />
+                  </div>
+                  <div
+                    class="img"
+                    v-show="!MusicPlayStatus && index == idx"
+                    @click="changePlaying"
+                  >
+                    <img src="./icons/btn_small_play.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+    <script src="./vudio.js"></script>
+    <script src="./all.js"></script>
+  </body>
+</html>

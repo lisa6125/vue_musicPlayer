@@ -1,0 +1,333 @@
+$normalWhite: #ffffff;
+$normalGray: #413d3db4;
+$lightGray: #dedede;
+$shadowGray: #5959598a;
+$maskGray: #4b4b4baf;
+$shadowBoxGray: #262626;
+$textGray: #bbbbbb;
+$lightTextGray: #dbdbdb;
+$fontTitle: 1.5rem;
+$fontSub: 1rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Merriweather Sans", sans-serif;
+}
+.main {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 30%;
+    bottom: 0;
+    left: 0;
+    background: -webkit-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 30%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.5)
+    );
+    background: -o-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 30%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.5)
+    );
+    background: -moz-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 30%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.5)
+    );
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 30%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.5)
+    );
+    filter: blur(8px);
+  }
+}
+.container {
+  width: 700px;
+  min-width: 320px;
+  height: 100%;
+  position: relative;
+  .showVudio {
+    width: 100%;
+    height: 70%;
+    position: relative;
+    .square {
+      z-index: 10;
+      cursor: pointer;
+      width: 80%;
+      height: 90%;
+      border: 10px solid $normalWhite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -webkit-filter: drop-shadow(0px 0px 5px $shadowGray);
+      filter: drop-shadow(0px 0px 5px $shadowGray);
+      // background-repeat: no-repeat;
+      // background-size: 100%;
+      // background-position: center center;
+    }
+  }
+  .main_content {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .song {
+      &_name {
+        font-size: $fontTitle;
+        margin-top: 4%;
+        z-index: 20;
+        cursor: pointer;
+      }
+      &_artist {
+        cursor: default;
+        font-size: $fontSub;
+        margin-top: 1%;
+      }
+      &_bar {
+        width: 75%;
+        height: 0.2rem;
+        background: $shadowGray;
+        margin-top: 5%;
+        position: relative;
+        cursor: pointer;
+        &_timer {
+          width: 0%;
+          height: 100%;
+          background: $normalGray;
+        }
+        &_btn {
+          position: absolute;
+          left: 0%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 10px;
+          height: 10px;
+          background: $normalGray;
+          border-radius: 50%;
+        }
+      }
+      &_timer {
+        margin-top: 1%;
+        font-size: 0.8rem;
+        width: 75%;
+        display: flex;
+        justify-content: space-between;
+      }
+      &_control {
+        margin-top: 3%;
+        width: 70%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        img {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.follow {
+  &_mask {
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background: $maskGray;
+    position: absolute;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    &.fade {
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+
+  &_card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 500px;
+    background: #000;
+    border-radius: 0 0 30px 30px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center 70%;
+    &_content {
+      position: absolute;
+      border-radius: 0 0 30px 30px;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      background: $normalWhite;
+      .song {
+        &_name {
+          margin-top: 30px;
+          text-align: center;
+          font-size: $fontTitle;
+        }
+        &_artist {
+          text-align: center;
+          font-size: $fontSub;
+        }
+        &_btn {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          margin-top: 20px;
+          .btn {
+            cursor: pointer;
+            line-height: 60px;
+            text-align: center;
+            color: #ffffff;
+            font-size: $fontTitle;
+            width: 180px;
+            height: 60px;
+            border-radius: 25px;
+            background: $normalGray;
+          }
+        }
+      }
+      .thanks {
+        cursor: pointer;
+        color: $normalWhite;
+        position: absolute;
+        bottom: -40px;
+        font-size: 1.3rem;
+        text-decoration: underline;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+}
+.playlist {
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 20%,
+    rgba(255, 255, 255, 0.7) 80%,
+    rgba(255, 255, 255, 0.2) 90%,
+    rgba(255, 255, 255, 0.2)
+  );
+  -webkit-drop-filter: blur(10px);
+  drop-filter: blur(10px);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+  &.slide {
+    top: 0%;
+    transition: all 0.3s ease-in-out;
+  }
+  &_card {
+    max-width: 700px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    .list {
+      &_control {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 60px;
+        > div {
+          cursor: pointer;
+          -webkit-filter: drop-shadow(0px 0px 3px $normalGray);
+          filter: drop-shadow(0px 0px 3px $normalGray);
+        }
+        .list {
+          &_title {
+            cursor: default;
+            font-size: $fontTitle;
+            font-weight: 800;
+            color: $normalWhite;
+          }
+        }
+      }
+      &_menu {
+        width: 70%;
+        margin: 20px auto 0 auto;
+        .song {
+          cursor: pointer;
+          position: relative;
+          width: 100%;
+          height: 80px;
+          padding: 20px;
+          border-bottom: 1px solid rgba(155, 153, 153, 0.226);
+          color: $maskGray;
+          &.active {
+            background: $normalWhite;
+            color: #000;
+            box-shadow: 0 0 10px $shadowGray;
+          }
+          &_name {
+            font-size: 1.2rem;
+            font-weight: 800;
+          }
+          &_artist {
+            font-size: $fontSub;
+          }
+          &_play {
+            position: absolute;
+            right: 10px;
+            top: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+#canvas {
+  position: absolute;
+  width: 150%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 500px) {
+  .main {
+    background-size: cover;
+  }
+  .playlist_card .list_menu {
+    width: 100%;
+  }
+  .container .main_content .song_control {
+    width: 90%;
+  }
+  #canvas {
+    width: 120%;
+    height: 70%;
+  }
+  .playlist_card .list_control {
+    width: 85%;
+    margin: 50px auto 0px auto;
+  }
+}
