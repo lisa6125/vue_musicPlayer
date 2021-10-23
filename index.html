@@ -22,7 +22,7 @@
       <div class="main">
         <div class="container">
           <div class="showVudio">
-            <div class="square" @click="changeFollowPage"></div>
+            <div class="square" @click="closeFollow(true)"></div>
             <canvas id="canvas"></canvas>
           </div>
           <div class="main_content">
@@ -99,7 +99,7 @@
         <div
           class="follow_mask"
           :class="{fade:!followPage}"
-          @click.self="changeFollowPage"
+          @click.self="closeFollow(false)"
         >
           <div
             class="follow_card"
@@ -109,10 +109,10 @@
               <div class="song_name">{{music[this.index].name}}</div>
               <div class="song_artist">{{music[this.index].artist}}</div>
               <div class="song_btn">
-                <div class="btn follow">follow</div>
-                <div class="btn remove">remove ad</div>
+                <div class="btn follow" @click.self="closeFollow(false)">follow</div>
+                <div class="btn remove" @click.self="closeFollow(false)">remove ad</div>
               </div>
-              <div class="thanks">No,thanks</div>
+              <div class="thanks" @click.self="closeFollow(false)">No,thanks</div>
             </div>
           </div>
         </div>

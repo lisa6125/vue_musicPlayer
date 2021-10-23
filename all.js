@@ -184,9 +184,6 @@ let vm = new Vue({
       mainbg.style.backgroundImage = `url(${this.music[this.index].imgSrc})`;
       followbg.style.backgroundImage = `url(${this.music[this.index].imgSrc})`;
     },
-    changeFollowPage() {
-      this.followPage = !this.followPage;
-    },
     changePlayListPage() {
       this.playListPage = !this.playListPage;
     },
@@ -267,6 +264,9 @@ let vm = new Vue({
         this.isShuffle = !this.isShuffle;
       }
     },
+    closeFollow(status) {
+      this.followPage = status
+    }
   },
   mounted() {
     this.changeBg();
