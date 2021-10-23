@@ -32,11 +32,11 @@
             <div class="song_artist">{{music[this.index].artist}}</div>
             <audio
               id="audio"
-              @ended="MusicPlayStatus=false"
+              @ended="handleShuffle(),changeLoop()"
               @timeupdate="catchTime"
               :src="music[index].src"
             ></audio>
-            <div class="song_bar">
+            <div class="song_bar" @click="clickBarTmie" @touchmove="moveBar">
               <div class="song_bar_timer"></div>
               <div class="song_bar_btn"></div>
             </div>
@@ -45,8 +45,11 @@
               <span>{{timeLeftMusic}}</span>
             </div>
             <div class="song_control">
-              <span class="shuffle">
+              <span class="shuffle" v-show="!isShuffle" @click="judgeShuffle">
                 <img src="./icons/btn_ShufflePlayback.svg" alt="" />
+              </span>
+              <span class="shuffle" v-show="isShuffle" @click="judgeShuffle">
+                <img src="./icons/btn_ShufflePlayback - 2.svg" alt="" />
               </span>
               <span class="pre" @click="changeSong(-1)">
                 <img src="./icons/btn_Rewind.svg" alt="" />
@@ -68,8 +71,26 @@
               <span class="next" @click="changeSong(1)">
                 <img src="./icons/btn_Fast.svg" alt="" />
               </span>
-              <span class="loop">
+              <span
+                class="loop"
+                v-show="loopStatus===0"
+                @click="loopStatus = 1,isShuffle = false"
+              >
                 <img src="./icons/btn_RepeatAll.svg" alt="" />
+              </span>
+              <span
+                class="loop"
+                v-show="loopStatus===1"
+                @click="loopStatus = 2,isShuffle = false"
+              >
+                <img src="./icons/btn_RepeatAll - 2.svg" alt="" />
+              </span>
+              <span
+                class="loop"
+                v-show="loopStatus===2"
+                @click="loopStatus = 0"
+              >
+                <img src="./icons/btn_RepeatOne - 2.svg" alt="" />
               </span>
             </div>
           </div>

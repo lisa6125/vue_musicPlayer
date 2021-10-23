@@ -74,7 +74,7 @@ let vm = new Vue({
     ],
     originalMusic: [],
     MusicPlayStatus: false, //是否開始音樂
-    isLoop: 0,
+    loopStatus: 0, //0=不循環, 1=循環全部歌單, 2=單曲循環
     isShuffle: false,
     currentTime: 0,
     durationTime: 0,
@@ -196,6 +196,7 @@ let vm = new Vue({
       this.changeSong(0);
     },
     catchTime() {
+      // 當audio執行更新時，觸發
       this.durationTime = Math.floor(this.nowPlaying.duration);
       this.currentTime = Math.floor(this.nowPlaying.currentTime);
       this.timerBar();
@@ -205,6 +206,66 @@ let vm = new Vue({
       let barBtn = document.querySelector(".song_bar_btn");
       bar.style.width = `${this.progressMusic}%`;
       barBtn.style.left = `${this.progressMusic}%`;
+    },
+    clickBarTmie(e) {
+      //點擊.song_bar_timer 改變現在音樂撥放時間currentTime
+      //計算點擊的位置到.song_bar_timer起始點的距離
+      //計算距離比例，更改現在撥放器的時間 currentTime
+      if (!this.nowPlaying.currentTime) return;
+      let bar = document.querySelector(".song_bar");
+      let target = e.offsetX;
+      this.nowPlaying.currentTime = Math.floor(
+        (target / bar.offsetWidth) * this.durationTime
+      );
+    },
+    // 手機滑動版
+    moveBar(e) {
+      //點擊圓點滑動
+      //先停止音樂撥放
+      this.MusicPlayStatus = false;
+      this.nowPlaying.pause();
+      if (!this.nowPlaying.currentTime) return;
+      let bar = document.querySelector(".song_bar");
+      //e.touches[0].pageX 為點擊位置到手機左邊框的距離
+      let target = e.touches[0].pageX - bar.offsetLeft; // bar.offsetLeft 為BAR到左邊框的距離
+      this.nowPlaying.currentTime = Math.floor(
+        (target / bar.offsetWidth) * this.durationTime
+      );
+      this.MusicPlayStatus = true;
+      this.nowPlaying.play();
+    },
+    //當撥放器結束時,音樂撥放狀態
+    changeLoop() {
+      //loop 無狀態下且不隨機時，停止撥放
+      if (this.loopStatus === 0 && !this.isShuffle) {
+        this.nowPlaying.pause();
+        this.MusicPlayStatus = false;
+        //撥放下一首歌
+      } else if (this.loopStatus === 1) {
+        this.changeSong(1);
+        //重複撥放
+      } else {
+        this.changeSong(0);
+      }
+    },
+    //當撥放器結束時,無狀態下且隨機時，隨機撥放音樂
+    handleShuffle() {
+      if (this.isShuffle && this.loopStatus === 0) {
+        let i = Math.floor(Math.random() * this.music.length);
+        this.changeIndex(i);
+      }
+    },
+    //點擊隨機按鈕時的判斷
+    judgeShuffle() {
+      if (
+        (this.loopStatus === 1 || this.loopStatus === 2) &&
+        this.isShuffle === false
+      ) {
+        this.loopStatus = 0;
+        this.isShuffle = true;
+      } else {
+        this.isShuffle = !this.isShuffle;
+      }
     },
   },
   mounted() {
